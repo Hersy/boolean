@@ -1,0 +1,65 @@
+name: Publish GitHub Package
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      packages: write
+      contents: write
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set Package Version Env
+        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+        id: set_version_env
+
+      - name: Setup Node & GitHub Packages Registry
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.14"
+          scope: ${{ github.repository_owner }}
+          registry-url: https://npm.pkg.github.com
+
+      - name: Setup Yarn
+        run: npm install -g yarn
+        id: install_yarn
+
+      - name: Install Packages
+        run: yarn install --frozen-lockfile
+        id: yarn_install
+
+      - name: Build Package
+        run: yarn build
+        id: yarn_build
+
+      - name: Run Tests
+        run: yarn test
+        id: tap_test
+
+      - name: Publish GitHub Package
+        env:
+          NODE_AUTH_TOKEN: ${{ env.GITHUB_TOKEN }}
+        run: yarn publish
+        id: publish_package
+
+      - name: Git Tag Package Version
+        uses: pkgdeps/git-tag-action@v2
+        env:
+          VERSION: ${{ env.VERSION }}
+        with:
+          github_token: ${{ env.GITHUB_TOKEN }}
+          github_repo: ${{ github.repository }}
+          version: ${{ env.VERSION }}
+          git_commit_sha: ${{ github.sha }}
+          git_tag_prefix: "hersy/pkg/v"

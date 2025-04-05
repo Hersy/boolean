@@ -1,0 +1,74 @@
+{
+  "name": "@hersy/boolean",
+  "version": "0.1.0",
+  "description": "Converts lots of things to boolean",
+  "keywords": [
+    "boolean",
+    "parser"
+  ],
+  "homepage": "https://github.com/hersy/boolean",
+  "bugs": {
+    "url": "https://github.com/hersy/boolean/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hersy/boolean.git"
+  },
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Golo Roden",
+      "email": "golo.roden@thenativeweb.io"
+    },
+    {
+      "name": "Matthias Wagler",
+      "email": "matthias.wagler@thenativeweb.io"
+    },
+    {
+      "name": "Ryan Smith",
+      "email": "ryan.smith@ht2labs.com"
+    },
+    {
+      "name": "Thomas Schaaf",
+      "email": "schaaf@komola.de"
+    },
+    {
+      "name": "Sebastian Mares",
+      "email": "camil.sebastian@mares.email"
+    },
+    {
+      "name": "Hersy",
+      "email": "me@hersy.dev"
+    }
+  ],
+  "files": [
+    "lib",
+    "src"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "source": "src/index.ts",
+  "types": "lib/index.d.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "scripts": {
+    "build": "yarn clean && tsc -p .",
+    "clean": "rimraf lib",
+    "type-check": "tsc --noEmit",
+    "watch": "tsc -p . --watch",
+    "test": "tap run tests/*.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "tap": "^21.1.0",
+    "typescript": "^5.8.0"
+  },
+  "packageManager": "yarn@1.22.22"
+}
